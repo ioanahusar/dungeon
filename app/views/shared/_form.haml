@@ -16,7 +16,10 @@
           - if tile.object.name.present?
             = image_tag "planet/#{tile.object.name}"
              
-  = render :partial => "shared/img", :locals => {:img => @img}         
+  %div
+    - @imgs.each do |tile|
+      .draggable
+        = image_tag "planet/#{tile}"     
     
   %div{:style=>"clear:both;"}      
     %p= f.submit
