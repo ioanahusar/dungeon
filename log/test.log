@@ -1,0 +1,25 @@
+Connecting to database specified by database.yml
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mFixture Delete (0.1ms)[0m  DELETE FROM "maps"
+SQLite3::SQLException: no such table: maps: DELETE FROM "maps"
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mFixture Delete (0.1ms)[0m  [1mDELETE FROM "maps"[0m
+SQLite3::SQLException: no such table: maps: DELETE FROM "maps"
+  [1m[35m (0.0ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  MOPED: 127.0.0.1:27017 COMMAND      database=admin command={:ismaster=>1} (0.7820ms)
+  MOPED: 127.0.0.1:27017 INSERT       database=test2_test collection=maps documents=[{"_id"=>"514050d3ab9594c5b1000001", "name"=>"test"}] flags=[] (0.1290ms)
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  MOPED: 127.0.0.1:27017 COMMAND      database=admin command={:ismaster=>1} (0.6914ms)
+  MOPED: 127.0.0.1:27017 INSERT       database=test2_test collection=maps documents=[{"_id"=>"51405138ab95943401000001", "name"=>"test"}] flags=[] (0.0691ms)
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  MOPED: 127.0.0.1:27017 INSERT       database=test2_test collection=maps documents=[{"_id"=>"51405138ab95943401000002", "name"=>"t"}] flags=[] (0.0632ms)
+  [1m[35m (0.0ms)[0m  rollback transaction

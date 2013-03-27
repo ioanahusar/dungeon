@@ -1,0 +1,116 @@
+# Place all the behaviors and hooks related to the matching controller here.
+# All this logic will automatically be available in application.js.
+class Drag
+  constructor: () ->
+
+    $(".draggable").draggable(
+        helper: 'clone',
+        snap: '.ui-droppable',
+        snapMode: 'outer'
+    )
+
+    $(".droppable").droppable(
+        accept: '.draggable',
+        drop: (event, ui) =>
+            clone = $(ui.draggable).clone()
+            $(event.target).append(clone)
+            clone.removeClass('draggable')
+            clone.draggable(
+                snap: '.ui-droppable',
+                snapMode: 'outer',
+                cancel: '.ui-droppable'
+            )
+            name = clone.find('img').attr('src').replace('/assets/planet/', '')
+            $(event.target).find('.name').val(name)
+    ).each( ->
+       #$(this).attr('style', 'position:relative');
+    )
+
+   $(document).on("dblclick", ".ui-draggable", ( ->
+        $(this).parent().find('.name').val('')
+        $(this).remove()
+      )
+   )
+
+
+class Move
+  constructor: () ->
+    unless $(document).find("#main").length is 0
+      # character - placement
+      x = String Math.floor(Math.random() * 610) + "px"
+      y = String Math.floor(Math.random() * 400) + "px"
+      ch = String Math.floor(Math.random() * 4 + 1)
+
+      $("<img>").attr(id: "copy", src: "/assets/planet/ch" + ch + ".png").css("position": "absolute", "top": y, "left": x).appendTo $("#main")
+
+      # character - movement
+      obstacle = ["15.png", "16.png", "17.png", "18.png"]
+      imgs = $("#main").find("img").map(->
+        fp = $(this).parent().offset()
+        a = [[fp.top, fp.top + 60, fp.left, fp.left + 80]] unless $.inArray($(this).attr("src").substring(15), obstacle) is -1
+      ).get()
+
+      edge = (left, top)->
+        left < 0 or left > max_w or top > max_h or top < 0
+
+      collision = (left, top)->
+        ans = false
+        right = left + 80
+        bottom = top + 60
+        $.each imgs, (ind, val) ->
+          ans = true if not (left > val[3] or right < val[2] or top > val[1] or bottom < val[0])
+        ans
+
+      max_w = $("#main").width() - 45
+      max_h = $("#main").height() - 45
+      keys = {}
+      step = 10
+      ###
+      $(document).keydown (e) ->
+        left = $("#copy").offset().left
+        top = $("#copy").offset().top
+        
+        switch e.which
+          when 37
+            $("#copy").stop().animate left: "-=110" if not collision(left - step, top) and not edge(left - step, top)
+
+          when 38
+            $("#copy").stop().animate top: "-=110" if not collision(left, top - step) and not edge(left, top - step)
+
+          when 39
+            $("#copy").stop().animate left: "+=110" if not collision(left + step, top) and not edge(left + step, top)
+
+          when 40
+            $("#copy").stop().animate top: "+=110" if not collision(left, top + step) and not edge(left, top + step)
+
+      ###
+      $(window).keydown (e) ->
+        keys[e.which] = true
+        console.log(keys)
+
+      $(window).keyup (e) ->
+        delete keys[e.which]
+        console.log(keys)
+
+      move = ->
+        $.each keys, (key, value) ->
+          left = $("#copy").offset().left
+          top = $("#copy").offset().top
+          
+          switch key
+            when '37'
+              $("#copy").css "left", "-=10" if not collision(left - 10, top) and not edge(left - 10, top)
+            when '38'
+              $("#copy").css 'top', "-=10" if not collision(left, top - 10) and not edge(left, top - 10)
+            when '39'
+              $("#copy").css 'left', "+=10" if not collision(left + 10, top) and not edge(left + 10, top)
+            when '40'
+              $("#copy").css 'top', "+=10" if not collision(left, top + 10) and not edge(left, top + 10)
+
+      setInterval move, 50
+      
+$(
+  () =>
+    new Drag()
+    new Move()
+)

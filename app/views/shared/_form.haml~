@@ -1,0 +1,19 @@
+= form_for @map do |f| 
+  %p
+    %strong= f.label :name
+    %br
+    = f.text_field :name
+    
+  %p 
+    %strong Map Structure:
+    %em (choose from the images below)
+    
+  .wrap
+    = f.fields_for :tiles do |tile|
+      .droppable
+        = tile.hidden_field :name, :class => 'name'
+             
+  = render :partial => "shared/img", :locals => {:img => @img}         
+    
+  %div{:style=>"clear:both;"}      
+    %p= f.submit

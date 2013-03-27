@@ -1,0 +1,9 @@
+%p= link_to "Back", maps_path
+
+- if @map.errors.any?
+  %h2 Errors:
+  %ul
+  - @map.errors.full_messages.each do |m|
+    %li= m
+
+

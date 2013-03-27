@@ -1,0 +1,10 @@
+%h2= @map.name
+
+#main
+  - @map.tiles.each do |tile|
+    .div
+      - if tile.name.present?
+        = image_tag "planet/#{tile.name}"
+           
+%p= link_to "Back", maps_path
+

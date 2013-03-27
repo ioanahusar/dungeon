@@ -1,0 +1,14 @@
+%h2 Maps
+- flash.each do |key, value|
+	= value
+- @maps.each do |map|
+	%h3=link_to map.name, map
+	=link_to "Edit", edit_map_path(map.id)
+	| 
+	= link_to "Delete", map, :confirm => "Are you sure?", :method => :delete 
+	%hr
+	
+%hr
+%p= link_to "Create new map", new_map_path
+
+

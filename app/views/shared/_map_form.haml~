@@ -1,0 +1,18 @@
+%p= link_to "Back", maps_path
+
+- if @map.errors.any?
+  %h2 Errors:
+  %ul
+  - @map.errors.full_messages.each do |m|
+    %li= m
+
+= form_for @map do |f| 
+  %p
+    %strong= f.label :name
+    %br
+    = f.text_field :name
+
+  %p 
+    %strong Map Structure:
+    %br
+    %em (double-click to remove tiles)

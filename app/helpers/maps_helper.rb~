@@ -1,0 +1,5 @@
+module MapsHelper
+  def hello_world
+    "dssdfsdfsdfsdf"
+  end
+end

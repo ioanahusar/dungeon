@@ -1,0 +1,59 @@
+class MapsController < ApplicationController
+	
+	
+	before_filter :find_map, :except => [:new, :create, :index]
+	
+	def index
+		@maps = Map.all.to_a
+	end
+	
+	def show
+  end
+  
+  def new
+   @imgs = Map::TILES
+   @map = Map.new
+   
+   (0..6).each do |col|
+    (0..6).each do |row|
+      @map.tiles << Tile.new
+    end
+   end
+  end
+  
+  def create
+    @imgs = Map::TILES
+    @map = Map.new(params[:map])
+    
+    if @map.save
+        redirect_to maps_path, :notice => "Your map has been saved."
+    else
+        render :action=>"new"
+    end
+  end
+  
+  def edit
+   @imgs = Map::TILES
+  end
+  
+  def update
+    @imgs = Map::TILES
+    if @map.update_attributes(params[:map])
+      redirect_to maps_path, :notice => "Your map has been updated."
+    else
+      render "edit"
+    end
+  end
+  
+  def destroy
+   @map.destroy
+   redirect_to maps_path
+  end
+  
+  protected
+    
+  def find_map
+    @map = Map.find(params[:id])
+  end
+  
+end

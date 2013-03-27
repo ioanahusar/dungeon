@@ -1,0 +1,4 @@
+%div
+    - @imgs.each do |tile|
+      .draggable
+        = image_tag "planet/#{tile}"      
